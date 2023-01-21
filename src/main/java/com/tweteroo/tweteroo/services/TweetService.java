@@ -18,8 +18,11 @@ public class TweetService {
         return repository.save(new Tweets(dto));
     }
 
-
     public List<Tweets> findAll(org.springframework.data.domain.Pageable page){
         return repository.findAll(page).getContent();
+    }
+
+    public List<Tweets> getTweets(String username){
+        return repository.findAllByUsername(username);
     }
 }

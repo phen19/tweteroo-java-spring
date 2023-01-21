@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +36,17 @@ public class TweetController {
     @GetMapping
     public List<Tweets> getTweets(@PageableDefault(page=0, size =5, sort = "id", direction = Sort.Direction.DESC)Pageable page){
         return tweetService.findAll(page);
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<List<Tweets>> getTweets(@PathVariable String username){
+        var tweets = tweetService.getTweets(username);
+
+        if(tweets != null){
+            return ResponseEntity.ok().body(tweets);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
