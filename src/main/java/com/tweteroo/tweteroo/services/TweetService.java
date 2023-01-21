@@ -3,9 +3,6 @@ package com.tweteroo.tweteroo.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import com.tweteroo.tweteroo.dto.TweetDTO;
@@ -21,11 +18,8 @@ public class TweetService {
         return repository.save(new Tweets(dto));
     }
 
-    public List<Tweets> listAll(){
-        return repository.findAll();
-    }
 
-/*     public Page<Tweets> list(@PageableDefault(page = 0, size = 2) Pageable page) {
-    return repository.findAll(page);
-  } */
+    public List<Tweets> findAll(org.springframework.data.domain.Pageable page){
+        return repository.findAll(page).getContent();
+    }
 }
