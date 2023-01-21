@@ -1,13 +1,17 @@
 package com.tweteroo.tweteroo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tweteroo.tweteroo.dto.UserDTO;
+import com.tweteroo.tweteroo.model.Users;
 import com.tweteroo.tweteroo.services.UserService;
 
 import jakarta.validation.Valid;
@@ -16,7 +20,7 @@ import jakarta.validation.Valid;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/sign-up")
-public class TweterooController {
+public class UserController {
 
     @Autowired
     private UserService userService;
@@ -26,4 +30,9 @@ public class TweterooController {
         userService.create(req);
     }
     
+    @GetMapping
+    public List<Users> listAll(){
+        return userService.listAll();
+    }
+
 }
