@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tweteroo.tweteroo.dto.TweetDTO;
 import com.tweteroo.tweteroo.model.Tweets;
 import com.tweteroo.tweteroo.services.TweetService;
+import com.tweteroo.tweteroo.services.UserService;
 
 import jakarta.validation.Valid;
 
@@ -27,10 +28,14 @@ import jakarta.validation.Valid;
 public class TweetController {
     @Autowired
     private TweetService tweetService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     public void createTweet(@RequestBody @Valid TweetDTO req){
-        tweetService.create(req);
+        var userData = userService.findByUsername(req.username());
+        TweetDTO tweetData = new TweetDTO(req.username(), userData.getAvatar(), req.tweet());
+        tweetService.create(tweetData);
     }
 
     @GetMapping
